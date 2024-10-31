@@ -1,0 +1,64 @@
+/my-ecommerce-app
+│
+├── /public             # Static assets
+│   ├── /images         # Images and icons
+│   ├── favicon.ico     # Favicon
+│   └── index.html      # HTML template
+│
+├── /src                # Main source code
+│   ├── /api            # API configuration and service functions
+│   │   ├── apiClient.js        # Axios or fetch configuration
+│   │   ├── productApi.js       # Product-related API calls
+│   │   └── userApi.js          # User-related API calls
+│   │
+│   ├── /assets         # Static assets used within components
+│   │   ├── /images
+│   │   └── styles      # Global styles and theme files
+│   │
+│   ├── /components     # Reusable UI components
+│   │   ├── /common     # Generic components (Button, Modal, etc.)
+│   │   ├── /product    # Product-related components (ProductCard, ProductList, etc.)
+│   │   └── /cart       # Cart-related components (CartItem, CartSummary, etc.)
+│   │
+│   ├── /features       # Feature-specific components
+│   │   ├── /auth       # Authentication logic (Login, Register, etc.)
+│   │   ├── /checkout   # Checkout and payment flow components
+│   │   ├── /order      # Order history and details components
+│   │   └── /product    # Product listing and details
+│   │
+│   ├── /hooks          # Custom hooks
+│   │   ├── useAuth.js           # Authentication-related hooks
+│   │   ├── useWebSocket.js      # WebSocket logic and state management
+│   │   └── useFetchProducts.js  # Data fetching with React Query
+│   │
+│   ├── /layouts        # Layout components (header, footer, etc.)
+│   │   ├── MainLayout.js       # Main layout structure
+│   │   └── AuthLayout.js       # Layout for authentication pages
+│   │
+│   ├── /pages          # Page components (corresponds to routes)
+│   │   ├── Home.js              # Home page
+│   │   ├── ProductDetails.js    # Product detail page
+│   │   ├── Cart.js              # Shopping cart page
+│   │   └── Checkout.js          # Checkout page
+│   │
+│   ├── /redux          # Redux setup (if using Redux)
+│   │   ├── /slices     # Slice files for each feature (productSlice, cartSlice, etc.)
+│   │   ├── store.js    # Configure store with middleware
+│   │   └── index.js    # Export actions and selectors
+│   │
+│   ├── /services       # Services for external integrations (e.g., payment, analytics)
+│   │   └── paymentService.js    # Payment API integration
+│   │
+│   ├── /types          # Type definitions (if using TypeScript)
+│   │   ├── productTypes.ts      # Product-related types
+│   │   └── userTypes.ts         # User-related types
+│   │
+│   ├── App.js          # Main app component
+│   ├── index.js        # Entry point of the application
+│   └── config.js       # Configuration for environment variables, API URLs, etc.
+│
+└── /__tests__          # Testing directory
+    ├── /components     # Component tests
+    ├── /features       # Feature tests
+    └── setupTests.js   # Test setup file (for Jest or Testing Library)
+
