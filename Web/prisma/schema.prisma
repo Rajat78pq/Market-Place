@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             Int             @id @default(autoincrement())
+  name           String?
+  email          String          @unique
+  password       String
+  createdAt      DateTime        @default(now())
+  oauthId        String?          @unique
+  deliveryPoints DeliveryPoint[]
+}
+
+model DeliveryPoint {
+  id        Int      @id @default(autoincrement())
+  latitude  Float
+  longitude Float
+  address   String
+  userId    Int
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Shop {
+  id        Int       @id @default(autoincrement())
+  name      String
+  ownerName String
+  email     String    @unique
+  password  String
+  category  String
+  radius    Float     @default(5000)
+  createdAt DateTime  @default(now())
+  location  Location?
+  products  Product[]
+}
+
+model Product {
+  id        Int      @id @default(autoincrement())
+  name      String
+  price     Float
+  shopId    Int
+  createdAt DateTime @default(now())
+  shop      Shop     @relation(fields: [shopId], references: [id])
+}
+
+model Location {
+  id        Int   @id @default(autoincrement())
+  latitude  Float
+  longitude Float
+  shopId    Int?  @unique
+  shop      Shop? @relation(fields: [shopId], references: [id])
+}
