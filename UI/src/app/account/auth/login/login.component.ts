@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,15 +16,14 @@ import { AlertModule } from 'ngx-bootstrap/alert';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  standalone:true,
-  imports:[CommonModule,FormsModule,ReactiveFormsModule,AlertModule]
+  standalone: true,
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, AlertModule],
 })
 
 /**
  * Login component
  */
 export class LoginComponent implements OnInit {
-
   loginForm!: UntypedFormGroup;
   submitted: any = false;
   error: any = '';
@@ -29,9 +34,14 @@ export class LoginComponent implements OnInit {
   year: number = new Date().getFullYear();
 
   // tslint:disable-next-line: max-line-length
-  constructor(private formBuilder: UntypedFormBuilder, private route: ActivatedRoute, private router: Router) { }
+  constructor(
+    private formBuilder: UntypedFormBuilder,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit() {
+    console.log('Its login page');
     // form validation
     this.loginForm = this.formBuilder.group({
       email: ['admin@themesbrand.com', [Validators.required, Validators.email]],
@@ -40,18 +50,20 @@ export class LoginComponent implements OnInit {
   }
 
   // convenience getter for easy access to form fields
-  get f() { return this.loginForm.controls; }
+  get f() {
+    return this.loginForm.controls;
+  }
 
   /**
    * Form submit
    */
   onSubmit() {
-    this.router.navigate(['/'])
+    this.router.navigate(['/']);
   }
 
   /**
- * Password Hide/Show
- */
+   * Password Hide/Show
+   */
   toggleFieldTextType() {
     this.fieldTextType = !this.fieldTextType;
   }
