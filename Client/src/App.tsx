@@ -4,12 +4,15 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const Home = lazy(() => import("./pages/home"));
 const UserLogin = lazy(() => import("./pages/userLogin"));
+const UserRegister = lazy(() => import("./pages/userRegister"));
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense
+        fallback={<span className="loading loading-ring loading-lg"></span>}
+      >
         <Home />
       </Suspense>
     ),
@@ -17,8 +20,20 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense
+        fallback={<span className="loading loading-ring loading-lg"></span>}
+      >
         <UserLogin />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/register",
+    element: (
+      <Suspense
+        fallback={<span className="loading loading-ring loading-lg"></span>}
+      >
+        <UserRegister />
       </Suspense>
     ),
   },

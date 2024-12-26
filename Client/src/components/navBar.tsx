@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const NavBar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -80,7 +81,14 @@ const NavBar = () => {
                 <a>Settings</a>
               </li>
               <li>
-                <a className="text-red-600">Logout</a>
+                <a>
+                  <Link to="/register">Register</Link>
+                </a>
+              </li>
+              <li>
+                <a className="text-red-600">
+                  <Link to="/login">Logout</Link>
+                </a>
               </li>
             </ul>
           </div>

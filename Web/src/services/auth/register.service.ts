@@ -3,13 +3,22 @@ import bcryptjs from "bcryptjs";
 
 export default class RegisterService {
   static async postRegister(email: string, password: string) {
-    const hashPassword = bcryptjs.hashSync(password, 10);
-    const result = await prisma.user.create({
-      data: {
+    const user = await prisma.user.findFirst({
+      where: {
         email: email,
-        password: hashPassword,
       },
     });
-    return result;
+    if (!user) {
+      const hashPassword = bcryptjs.hashSync(password, 10);
+      const result = await prisma.user.create({
+        data: {
+          email: email,
+          password: hashPassword,
+        },
+      });
+      return result;
+    } else {
+      return { error: "User already exits." };
+    }
   }
 }

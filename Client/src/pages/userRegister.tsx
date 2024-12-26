@@ -1,12 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 
-const UserLogin = () => {
+const UserRegister = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const login = async (email: string, password: string) => {
-    const result = await fetch("http://localhost:3000/api/login", {
+
+  const register = async (email: string, password: string) => {
+    const result = await fetch("http://localhost:3000/api/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -17,25 +17,20 @@ const UserLogin = () => {
     if (!result.ok) {
       // Throw an error if the response status is not in the 200-299 range
       const errorData = await result.json();
-      throw new Error(errorData.message || "Login failed");
+      throw new Error(errorData.message || "Registration failed");
+    } else {
+      const data = await result.json();
+      return data;
     }
-
-    const data = await result.json();
-
-    if (data.token) {
-      localStorage.setItem("token", data.token);
-    }
-
-    return data;
   };
-  const loginMutation = useMutation({
-    mutationFn: () => login(email, password),
+
+  const registerMutation = useMutation({
+    mutationFn: () => register(email, password),
     onSuccess: (data) => {
-      console.log("Login successful", data);
-      <Link to="/"></Link>;
+      console.log(data);
     },
     onError: () => {
-      console.log("Login failed");
+      console.log("Registration failed");
     },
   });
 
@@ -44,11 +39,11 @@ const UserLogin = () => {
       <div className="hero bg-base-200 min-h-screen">
         <div className="hero-content flex-col lg:flex-row-reverse">
           <div className="text-center lg:text-left">
-            <h1 className="text-5xl font-bold">Login now!</h1>
+            <h1 className="text-5xl font-bold">Register now!</h1>
             <p className="py-6">
-              Provident capitate voluptatem et in. Quadrat fugit ut assumed
-              except exercitation quasi. In delegati ease aut repudiate et a id
-              nisi.
+              Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
+              excepturi exercitationem quasi. In deleniti eaque aut repudiandae
+              et a id nisi.
             </p>
           </div>
           <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
@@ -87,10 +82,10 @@ const UserLogin = () => {
                   className="btn btn-primary"
                   onClick={(e) => {
                     e.preventDefault();
-                    loginMutation.mutate();
+                    registerMutation.mutate();
                   }}
                 >
-                  Login
+                  Register
                 </button>
               </div>
             </form>
@@ -101,4 +96,4 @@ const UserLogin = () => {
   );
 };
 
-export default UserLogin;
+export default UserRegister;
