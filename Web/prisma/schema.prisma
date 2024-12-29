@@ -8,13 +8,14 @@ datasource db {
 }
 
 model User {
-  id             Int             @id @default(autoincrement())
+  id             String           @id @default(uuid())
   name           String?
-  email          String          @unique
+  email          String           @unique
   password       String
-  createdAt      DateTime        @default(now())
+  createdAt      DateTime         @default(now())
   oauthId        String?          @unique
-  deliveryPoints DeliveryPoint[]
+  deliveryPoints DeliveryPoint[]  @relation("UserDeliveryPoint")
+  shops          Shop[]           @relation("UserShops")
 }
 
 model DeliveryPoint {
@@ -22,9 +23,9 @@ model DeliveryPoint {
   latitude  Float
   longitude Float
   address   String
-  userId    Int
+  userId    String
   createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation("UserDeliveryPoint",fields: [userId], references: [id])
 }
 
 model Shop {
@@ -36,8 +37,10 @@ model Shop {
   category  String
   radius    Float     @default(5000)
   createdAt DateTime  @default(now())
-  location  Location?
-  products  Product[]
+  location  Location? @relation("ShopLocation")
+  products  Product[] 
+  ownerId   String     // Foreign key to reference the User
+  owner     User       @relation("UserShops", fields: [ownerId], references: [id])
 }
 
 model Product {
@@ -54,5 +57,5 @@ model Location {
   latitude  Float
   longitude Float
   shopId    Int?  @unique
-  shop      Shop? @relation(fields: [shopId], references: [id])
+  shop      Shop? @relation("ShopLocation",fields: [shopId], references: [id])
 }

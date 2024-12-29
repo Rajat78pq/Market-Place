@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import Footer from "../components/footer";
-import NavBar from "../components/navBar";
 
 const Home = () => {
   const [location, setLocation] = useState({});
@@ -29,9 +27,6 @@ const Home = () => {
   }, [location]);
   return (
     <>
-      <NavBar />
-
-      {/* body part  */}
       <div
         className="hero min-h-screen"
         style={{
@@ -52,9 +47,6 @@ const Home = () => {
           </div>
         </div>
       </div>
-      {/* body part end  */}
-
-      <Footer />
     </>
   );
 };

@@ -1,6 +1,9 @@
 export interface IShopDetails {
-  shopOwnerImage: string;
-  shopOwnerName: string;
-  shopName: string;
-  isOpen: boolean;
+  name: string;
+  ownerName: string;
+  email: string;
+  password: string;
+  category: string;
+  radius: number;
+  ownerId: string;
 }
