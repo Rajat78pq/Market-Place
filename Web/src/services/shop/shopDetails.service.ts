@@ -2,8 +2,17 @@ import { IShopDetails } from "../../models/IshopDetails";
 import prisma from "../../config/db.config";
 
 export default class ShopDetailsService {
-  static async getShopDetails(id: string) {
-    throw new Error("Method not implemented.");
+  static async getShopDetails(id: number) {
+    try {
+      const shop = await prisma.shop.findUnique({
+        where: {
+          id: id,
+        },
+      });
+      return shop;
+    } catch (error) {
+      throw error;
+    }
   }
   static async postShopDetails(shopData: IShopDetails) {
     try {

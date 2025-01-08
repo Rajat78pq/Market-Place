@@ -5,6 +5,7 @@ const UserRegister = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [success, setSuccess] = useState(false);
+  const [resMessage, setResMessage] = useState("");
 
   const register = async (email: string, password: string) => {
     const result = await fetch("http://localhost:3000/api/register", {
@@ -21,6 +22,7 @@ const UserRegister = () => {
     }
 
     const data = await result.json();
+    setResMessage(data.message);
     return data;
   };
 
@@ -109,7 +111,7 @@ const UserRegister = () => {
               d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          <span>Registration successful!</span>
+          <span>{resMessage}</span>
         </div>
       )}
     </div>

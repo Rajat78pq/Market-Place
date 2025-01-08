@@ -7,6 +7,7 @@ import authenticate from "./middlewares/authenticate";
 import RegisterRoute from "./routes/auth/register.route";
 import LoginRoute from "./routes/auth/login.route";
 import ShopRoute from "./routes/shop/shopDetails.route";
+import ShopLocationRoute from "./routes/shop/shopLocation.route";
 
 dotenv.config();
 
@@ -55,3 +56,4 @@ app.use(express.json());
 app.use("/api", RegisterRoute);
 app.use("/api", LoginRoute);
 app.use("/api", authenticate, ShopRoute);
+app.use("/api", authenticate, ShopLocationRoute);

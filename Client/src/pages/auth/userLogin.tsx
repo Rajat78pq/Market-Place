@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useGoogleLogin } from "@react-oauth/google";
 
 const UserLogin = () => {
   const [email, setEmail] = useState("");
@@ -42,6 +43,12 @@ const UserLogin = () => {
         setError(false);
       }, 2000);
     },
+  });
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: (data) => console.log(data),
+    onError: (error) => console.log(error),
+    flow: "auth-code",
   });
 
   return (
@@ -98,6 +105,9 @@ const UserLogin = () => {
                   Login
                 </button>
               </div>
+              <button onClick={googleLogin} className="btn">
+                Login with Google
+              </button>
             </form>
           </div>
         </div>

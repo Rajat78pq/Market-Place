@@ -1,13 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const NavBar = () => {
-  const [isExpanded, setIsExpanded] = useState(false);
-
   useEffect(() => {});
-  const toggleContent = () => {
-    setIsExpanded(!isExpanded);
-  };
+
   return (
     <>
       <div className="navbar bg-base-100 fixed z-20">
@@ -156,21 +152,6 @@ const NavBar = () => {
             </ul>
           </div>
         </div>
-      </div>
-      {/* catgoery */}
-      <div className=" bg-gray-100 flex flex-row fixed top-16 w-full z-10">
-        <div className="flex flex-wrap overflow-hidden gap-4 p-2 max-h-10">
-          <a>Grocery</a>
-          <a>Foods</a>
-          <a>Fast Foods</a>
-          <a>Home Appliance</a>
-          <a>Electronics</a>
-          <a>smart Gadgets</a>
-          <a>Beauty items</a>
-        </div>
-        <button className="sm-btn pr-3 text-center" onClick={toggleContent}>
-          ...
-        </button>
       </div>
     </>
   );

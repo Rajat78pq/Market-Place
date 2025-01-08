@@ -6,4 +6,8 @@ router.post("/shop", (req, res) => {
   ShopDetailsController.postShopDetails(req, res);
 });
 
+router.get("/shop/:id", (req, res) => {
+  ShopDetailsController.getShopDetails(req, res);
+});
+
 export default router;

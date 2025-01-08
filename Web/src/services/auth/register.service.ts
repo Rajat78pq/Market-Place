@@ -16,9 +16,9 @@ export default class RegisterService {
           password: hashPassword,
         },
       });
-      return result;
+      return { message: "User Register successfully." };
     } else {
-      return { error: "User already exits." };
+      return { message: "User already exits." };
     }
   }
 }
