@@ -3,17 +3,27 @@ import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomeLayout from "./layout/homeLayout";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import ShopDashboard from "./layout/shopDashboard";
 
 const Home = lazy(() => import("./pages/home"));
 const UserLogin = lazy(() => import("./pages/auth/userLogin"));
 const UserRegister = lazy(() => import("./pages/auth/userRegister"));
 const ShopDetailsForm = lazy(() => import("./pages/shop/shopDetailsForm"));
 const ShopLocation = lazy(() => import("./pages/shop/shopLocation"));
+const ShopHomePage = lazy(() => import("./pages/shop/dashboard/homePage"));
 
-const GoogleAuthWrapper = () => {
+const GoogleAuthLoginWrapper = () => {
   return (
     <GoogleOAuthProvider clientId="972260022709-c0bv8vvgcqfou1ossdn79rfl3lkmj2b0.apps.googleusercontent.com">
       <UserLogin></UserLogin>
+    </GoogleOAuthProvider>
+  );
+};
+
+const GoogleAuthRegisterWrapper = () => {
+  return (
+    <GoogleOAuthProvider clientId="972260022709-c0bv8vvgcqfou1ossdn79rfl3lkmj2b0.apps.googleusercontent.com">
+      <UserRegister></UserRegister>
     </GoogleOAuthProvider>
   );
 };
@@ -37,7 +47,7 @@ const router = createBrowserRouter([
       <Suspense
         fallback={<span className="loading loading-ring loading-lg"></span>}
       >
-        <GoogleAuthWrapper />
+        <GoogleAuthLoginWrapper />
       </Suspense>
     ),
   },
@@ -47,7 +57,7 @@ const router = createBrowserRouter([
       <Suspense
         fallback={<span className="loading loading-ring loading-lg"></span>}
       >
-        <UserRegister />
+        <GoogleAuthRegisterWrapper />
       </Suspense>
     ),
   },
@@ -73,6 +83,18 @@ const router = createBrowserRouter([
           <ShopLocation />
         </Suspense>
       </HomeLayout>
+    ),
+  },
+  {
+    path: "/shop/dashboard",
+    element: (
+      <ShopDashboard>
+        <Suspense
+          fallback={<span className="loading loading-ring loading-lg"></span>}
+        >
+          <ShopHomePage />
+        </Suspense>
+      </ShopDashboard>
     ),
   },
 ]);

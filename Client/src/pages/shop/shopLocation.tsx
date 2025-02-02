@@ -2,6 +2,7 @@ import location from "../../assets/imgs/location.png";
 import { motion } from "framer-motion";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useEffect, useState, useRef } from "react";
+import { Link } from "react-router-dom";
 const ShopLocation = () => {
   // const [currentShop, setCurrentShop] = useState();
   const [latitude, setLatitude] = useState(0);
@@ -120,7 +121,9 @@ const ShopLocation = () => {
             <div className="modal-action">
               <form method="dialog" className="flex gap-2">
                 {/* if there is a button in form, it will close the modal */}
-                <button className="btn">Go to Dashboard 🛍️</button>
+                <Link to="/shop/dashboard" className="btn">
+                  Go to Dashboard 🛍️
+                </Link>
                 <button
                   className="btn"
                   onClick={() => {

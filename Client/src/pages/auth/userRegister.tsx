@@ -1,5 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { FcGoogle } from "react-icons/fc";
+import { useGoogleLogin } from "@react-oauth/google";
 
 const UserRegister = () => {
   const [email, setEmail] = useState("");
@@ -38,6 +41,38 @@ const UserRegister = () => {
       setSuccess(false); // Reset success flag if an error occurs
       console.log("Registration failed");
     },
+  });
+
+  interface GoogleResponse {
+    code: string;
+  }
+
+  const googleRes = async (authResult: GoogleResponse) => {
+    console.log(authResult.code);
+    const result = await fetch(
+      `http://localhost:3000/api/register?code=${authResult.code}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (!result.ok) {
+      const errorData = await result.json();
+      throw new Error(
+        errorData.message || "Registration failed in Google Register"
+      );
+    }
+    const data = await result.json();
+    setResMessage(data.message);
+    return data;
+  };
+
+  const googleRegister = useGoogleLogin({
+    onSuccess: googleRes,
+    onError: (error) => console.log(error),
+    flow: "auth-code",
   });
 
   return (
@@ -90,8 +125,17 @@ const UserRegister = () => {
             </div>
             <div className="form-control mt-6">
               <button className="btn btn-primary" type="submit">
-                Register
+                Registration
               </button>
+            </div>
+            <div className="form-control">
+              <button className="btn" onClick={googleRegister}>
+                Google Registration
+                <FcGoogle size={20} />
+              </button>
+            </div>
+            <div className="text-center text-blue-700">
+              <Link to="/login">login</Link>
             </div>
           </form>
         </div>

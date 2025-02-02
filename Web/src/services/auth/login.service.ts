@@ -13,15 +13,17 @@ export default class LoginService {
     if (!user) {
       throw new Error("Invalid email or password");
     } else {
-      const isPasswordValid = bcryptjs.compareSync(password, user.password);
-
-      if (!isPasswordValid) {
-        throw new Error("Invalid email or password");
+      if (user.password === null) {
       } else {
-        const token = jwt.sign({ userId: user.id }, "secret", {
-          expiresIn: "7h",
-        });
-        return { token };
+        const isPasswordValid = bcryptjs.compareSync(password, user.password);
+        if (!isPasswordValid) {
+          throw new Error("Invalid email or password");
+        } else {
+          const token = jwt.sign({ userId: user.id }, "secret", {
+            expiresIn: "7h",
+          });
+          return { token };
+        }
       }
     }
   }

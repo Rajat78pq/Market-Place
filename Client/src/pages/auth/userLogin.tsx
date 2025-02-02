@@ -2,6 +2,8 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
+import { FcGoogle } from "react-icons/fc";
+import { Link } from "react-router-dom";
 
 const UserLogin = () => {
   const [email, setEmail] = useState("");
@@ -44,9 +46,16 @@ const UserLogin = () => {
       }, 2000);
     },
   });
+  interface GoogleResponse {
+    code: string;
+  }
+
+  const googleRes = async (authResult: GoogleResponse) => {
+    console.log(authResult.code);
+  };
 
   const googleLogin = useGoogleLogin({
-    onSuccess: (data) => console.log(data),
+    onSuccess: googleRes,
     onError: (error) => console.log(error),
     flow: "auth-code",
   });
@@ -106,8 +115,11 @@ const UserLogin = () => {
                 </button>
               </div>
               <button onClick={googleLogin} className="btn">
-                Login with Google
+                Login with Google <FcGoogle size={20} />
               </button>
+              <div className="text-center text-blue-700">
+                <Link to="/register">registration</Link>
+              </div>
             </form>
           </div>
         </div>
