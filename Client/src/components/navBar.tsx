@@ -1,8 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Category from "./category";
+import { ImSearch } from "react-icons/im";
 
 const NavBar = () => {
+  const [showSearch, setShowSearch] = useState(false);
   useEffect(() => {});
 
   return (
@@ -38,12 +40,24 @@ const NavBar = () => {
             <Category />
           </div>
         </div>
-        <div className="flex-1">
-          <Link to="/">
-            <a className="btn btn-ghost text-xl">daisyUI</a>
-          </Link>
-        </div>
         <div className="flex-none">
+          <div className="md:block hidden">
+            <input
+              type="text"
+              placeholder="Search.."
+              className="border-gray-300 rounded-md px-4 py-2 lg:w-96 "
+            />
+          </div>
+          {/* search  */}
+          <button
+            className="btn btn-ghost btn-circle block md:hidden"
+            onClick={() => setShowSearch(!showSearch)}
+          >
+            <div className="indicator">
+              <ImSearch size={20} />
+            </div>
+          </button>
+          {/* cart */}
           <div className="dropdown dropdown-end">
             <div
               tabIndex={0}
@@ -105,44 +119,6 @@ const NavBar = () => {
           </button>
           {/* profile */}
 
-          <div className="dropdown dropdown-end">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-ghost btn-circle avatar"
-            >
-              <div className="w-10 rounded-full">
-                <img
-                  alt="Tailwind CSS Navbar component"
-                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-                />
-              </div>
-            </div>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
-            >
-              <li>
-                <a className="justify-between">
-                  Profile
-                  <span className="badge">New</span>
-                </a>
-              </li>
-              <li>
-                <a>Settings</a>
-              </li>
-              <li>
-                <a>
-                  <Link to="/register">Register</Link>
-                </a>
-              </li>
-              <li>
-                <Link to="/login">
-                  <a className="text-red-600">Logout</a>
-                </Link>
-              </li>
-            </ul>
-          </div>
           <div className="flex-none dropdown dropdown-end">
             <button className="btn btn-square btn-ghost" tabIndex={1}>
               <svg
@@ -182,7 +158,56 @@ const NavBar = () => {
               </li>
             </ul>
           </div>
+          <div className="dropdown dropdown-end">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle avatar"
+            >
+              <div className="w-10 rounded-full">
+                <img
+                  alt="Tailwind CSS Navbar component"
+                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                />
+              </div>
+            </div>
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+            >
+              <li>
+                <a className="justify-between">
+                  Profile
+                  <span className="badge">New</span>
+                </a>
+              </li>
+              <li>
+                <a>Settings</a>
+              </li>
+              <li>
+                <a>
+                  <Link to="/register">Register</Link>
+                </a>
+              </li>
+              <li>
+                <Link to="/login">
+                  <a className="text-red-600">Logout</a>
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
+      </div>
+      <div
+        className={`w-full p-2 bg-based fixed top-16 z-10 shadow-md md:hidden ${
+          showSearch ? "block" : "hidden"
+        }`}
+      >
+        <input
+          type="text"
+          placeholder="Search..."
+          className="input input-bordered w-full"
+        />
       </div>
     </>
   );
