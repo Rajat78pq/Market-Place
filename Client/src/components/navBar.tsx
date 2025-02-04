@@ -40,11 +40,14 @@ const NavBar = () => {
             <Category />
           </div>
         </div>
+        <Link to="/" className="absolute left-[4rem]">
+          Home
+        </Link>
         <div className="flex-none">
           <div className="md:block hidden">
             <input
               type="text"
-              placeholder="Search.."
+              placeholder="Search for Products..."
               className="border-gray-300 rounded-md px-4 py-2 lg:w-96 "
             />
           </div>
@@ -205,7 +208,7 @@ const NavBar = () => {
       >
         <input
           type="text"
-          placeholder="Search..."
+          placeholder="Search for Products..."
           className="input input-bordered w-full"
         />
       </div>
