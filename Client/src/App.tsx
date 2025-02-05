@@ -5,13 +5,14 @@ import HomeLayout from "./layout/homeLayout";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import ShopDashboard from "./layout/shopDashboard";
 
-const Home = lazy(() => import("./pages/home"));
+// const Home = lazy(() => import("./pages/home"));
 const HeroPage = lazy(() => import("./pages/heroPage"));
 const UserLogin = lazy(() => import("./pages/auth/userLogin"));
 const UserRegister = lazy(() => import("./pages/auth/userRegister"));
 const ShopDetailsForm = lazy(() => import("./pages/shop/shopDetailsForm"));
 const ShopLocation = lazy(() => import("./pages/shop/shopLocation"));
 const ShopHomePage = lazy(() => import("./pages/shop/dashboard/homePage"));
+const UserProfile = lazy(() => import("./pages/user/userProfile"));
 
 const GoogleAuthLoginWrapper = () => {
   return (
@@ -38,7 +39,7 @@ const router = createBrowserRouter([
           fallback={<span className="loading loading-ring loading-lg"></span>}
         >
           <HeroPage />
-          <Home />
+          {/* <Home /> */}
         </Suspense>
       </HomeLayout>
     ),
@@ -97,6 +98,16 @@ const router = createBrowserRouter([
           <ShopHomePage />
         </Suspense>
       </ShopDashboard>
+    ),
+  },
+  {
+    path: "/profile",
+    element: (
+      <Suspense
+        fallback={<span className="loading loading-ring loading-lg"></span>}
+      >
+        <UserProfile />
+      </Suspense>
     ),
   },
 ]);
