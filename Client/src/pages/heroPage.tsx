@@ -198,7 +198,7 @@ const HeroPage = () => {
                 <FaArrowRight />
               </button>
             </div>
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:gap-6">
+            <div className="grid grid-cols-2 gap-4 lg:grid-cols-2 lg:gap-6">
               {onlyForYou.map((item) => (
                 <div
                   key={item.id}
@@ -207,7 +207,7 @@ const HeroPage = () => {
                   <img
                     src={item.img}
                     alt={item.name}
-                    className="w-full h-32 object-cover rounded-md mb-2 lg:h-40"
+                    className="w-full h-32 object-cover rounded-md mb-2 lg:h-60"
                   />
                   <h4 className="text-sm font-semibold lg:text-base">
                     {item.name}
@@ -227,7 +227,7 @@ const HeroPage = () => {
                 <FaArrowRight />
               </button>
             </div>
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:gap-6">
+            <div className="grid grid-cols-2 gap-4 lg:grid-cols-2 lg:gap-6">
               {onlyForGirls.map((item) => (
                 <div
                   key={item.id}
@@ -236,7 +236,7 @@ const HeroPage = () => {
                   <img
                     src={item.img}
                     alt={item.name}
-                    className="w-full h-32 object-cover rounded-md mb-2 lg:h-40"
+                    className="w-full h-32 object-cover rounded-md mb-2 lg:h-60"
                   />
                   <h4 className="text-sm font-semibold lg:text-base">
                     {item.name}

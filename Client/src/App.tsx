@@ -13,6 +13,8 @@ const ShopDetailsForm = lazy(() => import("./pages/shop/shopDetailsForm"));
 const ShopLocation = lazy(() => import("./pages/shop/shopLocation"));
 const ShopHomePage = lazy(() => import("./pages/shop/dashboard/homePage"));
 const UserProfile = lazy(() => import("./pages/user/userProfile"));
+const ShopProduct = lazy(() => import("./pages/shop/dashboard/productPage"));
+const ShopOrders = lazy(() => import("./pages/shop/dashboard/orderPage"));
 
 const GoogleAuthLoginWrapper = () => {
   return (
@@ -108,6 +110,30 @@ const router = createBrowserRouter([
       >
         <UserProfile />
       </Suspense>
+    ),
+  },
+  {
+    path: "/shop/products",
+    element: (
+      <ShopDashboard>
+        <Suspense
+          fallback={<span className="loading loading-ring loading-lg"></span>}
+        >
+          <ShopProduct />
+        </Suspense>
+      </ShopDashboard>
+    ),
+  },
+  {
+    path: "/shop/orders",
+    element: (
+      <ShopDashboard>
+        <Suspense
+          fallback={<span className="loading loading-ring loading-lg"></span>}
+        >
+          <ShopOrders />
+        </Suspense>
+      </ShopDashboard>
     ),
   },
 ]);
