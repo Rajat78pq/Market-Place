@@ -7,4 +7,8 @@ router.post("/shop/location", (req, res) => {
   ShopLocationController.createShopLocation(req, res);
 });
 
+router.get("/temp/shop/location", (req, res) => {
+  ShopLocationController.getShopLocation(req, res);
+});
+
 export default router;

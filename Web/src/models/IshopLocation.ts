@@ -1,5 +1,5 @@
 export interface IShopLocation {
   latitude: number;
   longitude: number;
-  shopId: number;
+  shop_id: string;
 }

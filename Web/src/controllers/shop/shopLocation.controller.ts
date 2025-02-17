@@ -12,4 +12,9 @@ export default class ShopLocationController {
       return res.status(500).send(`Error from the backend ${error}`);
     }
   }
+
+  static async getShopLocation(req: Request, res: Response) {
+    const result = await ShopLocationService.getShopLocation();
+    return res.status(200).send(result);
+  }
 }

@@ -2,7 +2,7 @@ import { IShopDetails } from "../../models/IshopDetails";
 import prisma from "../../config/db.config";
 
 export default class ShopDetailsService {
-  static async getShopDetails(id: number) {
+  static async getShopDetails(id: string) {
     try {
       const shop = await prisma.shop.findUnique({
         where: {

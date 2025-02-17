@@ -8,7 +8,7 @@ const ShopLocation = () => {
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
   const queryClient = useQueryClient();
-  const shopId: number = queryClient.getQueryData(["currentShop"])?.shopId;
+  const shop_id: number = queryClient.getQueryData(["currentShop"])?.shopId;
   const modalRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const ShopLocation = () => {
       setLatitude(position.coords.latitude);
       setLongitude(position.coords.longitude);
     });
-    console.log(latitude, longitude, shopId);
+    console.log(latitude, longitude, shop_id);
   };
 
   const handelSubmit = async () => {
@@ -37,7 +37,7 @@ const ShopLocation = () => {
       body: JSON.stringify({
         latitude,
         longitude,
-        shopId,
+        shop_id: shop_id,
       }),
     });
 

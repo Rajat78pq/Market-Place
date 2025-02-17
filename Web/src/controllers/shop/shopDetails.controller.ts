@@ -4,7 +4,7 @@ import { IShopDetails } from "../../models/IshopDetails";
 
 export default class ShopDetailsController {
   static async getShopDetails(req: Request, res: Response) {
-    const id: number = parseInt(req.params.id);
+    const id: string = req.params.id;
     const result = await ShopDetailsService.getShopDetails(id);
     return res.status(200).send(result);
   }

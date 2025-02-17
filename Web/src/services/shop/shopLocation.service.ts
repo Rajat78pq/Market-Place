@@ -8,9 +8,18 @@ export default class ShopLocationService {
         data: {
           latitude: location.latitude,
           longitude: location.longitude,
-          shopId: location.shopId,
+          shop_id: location.shop_id,
         },
       });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async getShopLocation() {
+    try {
+      const Response = await prisma.location.findMany();
+      return Response;
     } catch (error) {
       throw error;
     }

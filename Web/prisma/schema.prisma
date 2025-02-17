@@ -19,7 +19,7 @@ model User {
 }
 
 model DeliveryPoint {
-  id        Int      @id @default(autoincrement())
+  id        String      @id @default(uuid())
   latitude  Float
   longitude Float
   address   String
@@ -29,7 +29,7 @@ model DeliveryPoint {
 }
 
 model Shop {
-  id        Int       @id @default(autoincrement())
+  id        String       @id @default(uuid())
   name      String
   ownerName String
   email     String    @unique
@@ -44,18 +44,28 @@ model Shop {
 }
 
 model Product {
-  id        Int      @id @default(autoincrement())
-  name      String
-  price     Float
-  shopId    Int
+  id        String      @id @default(uuid())
+  product_name      String
+  description String
+  category  String
+  brand     String
+  price     Decimal
+  discount_price Decimal
+  stock     Int
+  image     String[]
+  color     String
+  size      String
+  slug      String
+  tags      String[]
   createdAt DateTime @default(now())
+  shopId    String
   shop      Shop     @relation(fields: [shopId], references: [id])
 }
 
 model Location {
-  id        Int   @id @default(autoincrement())
+  id        String   @id @default(uuid())
   latitude  Float
   longitude Float
-  shopId    Int?  @unique
-  shop      Shop? @relation("ShopLocation",fields: [shopId], references: [id])
+  shop_id   String?  @unique
+  shop      Shop? @relation("ShopLocation",fields: [shop_id], references: [id])
 }

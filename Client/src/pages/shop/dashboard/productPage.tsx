@@ -4,16 +4,56 @@ import "tailwindcss/tailwind.css";
 const ProductPage = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  const [step, setStep] = useState(1);
+
+  const [description, setDescription] = useState("");
+
+  const changeDes = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setDescription(e.target.value);
+  };
+
+  const handelNext = () => {
+    setStep((previous) => previous + 1);
+  };
+
+  const handelBack = () => {
+    setStep((previous) => previous - 1);
+  };
+
   const showModal = () => {
     setIsModalVisible(true);
   };
 
   const handleOk = () => {
     setIsModalVisible(false);
+    console.log(formData, description);
+    setStep(1);
   };
 
   const handleCancel = () => {
     setIsModalVisible(false);
+  };
+
+  const [formData, setFormData] = useState({
+    product_name: "",
+    category: "",
+    brand: "",
+    price: 0,
+    discount_price: 0,
+    stock: 0,
+    image: {},
+    color: "",
+    size: "",
+    slug: "",
+    tags: [],
+  });
+
+  const handelChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   return (
@@ -123,57 +163,198 @@ const ProductPage = () => {
       {isModalVisible && (
         <div className="modal modal-open">
           <div className="modal-box">
-            <h3 className="font-bold text-lg">Add New Product</h3>
+            <h3 className="font-bold text-lg">
+              {step === 1 ? "Add a New Product" : "Additional Details"}
+            </h3>
             <form className="mt-4">
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Product Name</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder="Product Name"
-                  className="input input-bordered"
-                />
-              </div>
-              <div className="form-control mt-4">
-                <label className="label">
-                  <span className="label-text">Price</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder="Price"
-                  className="input input-bordered"
-                />
-              </div>
-              <div className="form-control mt-4">
-                <label className="label">
-                  <span className="label-text">Stock</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder="Stock"
-                  className="input input-bordered"
-                />
-              </div>
-              <div className="form-control mt-4">
-                <label className="label">
-                  <span className="label-text">Image URL</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder="Image URL"
-                  className="input input-bordered"
-                />
-              </div>
+              {step === 1 && (
+                <>
+                  <div className="form-control">
+                    <label className="label">
+                      <span className="label-text">Product Name</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Product Name"
+                      name="product_name"
+                      className="input input-bordered"
+                      onChange={handelChanges}
+                    />
+                  </div>
+                  <div className="form-control mt-4">
+                    <label className="label">
+                      <span className="label-text">Description</span>
+                    </label>
+                    <textarea
+                      className="textarea textarea-bordered"
+                      placeholder="Product Description"
+                      value={description}
+                      onChange={changeDes}
+                    ></textarea>
+                  </div>
+                  <div className="form-control mt-4">
+                    <label className="label">
+                      <span className="label-text">Category</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Category"
+                      name="category"
+                      className="input input-bordered"
+                      onChange={handelChanges}
+                    />
+                  </div>
+                  <div className="form-control mt-4">
+                    <label className="label">
+                      <span className="label-text">Brand Name</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Brand"
+                      name="brand"
+                      className="input input-bordered"
+                      onChange={handelChanges}
+                    />
+                  </div>
+                </>
+              )}
+
+              {step === 2 && (
+                <>
+                  <div className="form-control">
+                    <label className="label">
+                      <span className="label-text">Price</span>
+                    </label>
+                    <input
+                      type="number"
+                      placeholder="Price"
+                      name="price"
+                      className="input input-bordered"
+                      onChange={handelChanges}
+                    />
+                  </div>
+                  <div className="form-control mt-4">
+                    <label className="label">
+                      <span className="label-text">Discount Price</span>
+                    </label>
+                    <input
+                      type="number"
+                      placeholder="Discount"
+                      name="discount_price"
+                      className="input input-bordered"
+                      onChange={handelChanges}
+                    />
+                  </div>
+                  <div className="form-control mt-4">
+                    <label className="label">
+                      <span className="label-text">Stock Quantity</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Stock"
+                      name="stock"
+                      className="input input-bordered"
+                      onChange={handelChanges}
+                    />
+                  </div>
+                  <div className="form-control mt-4">
+                    <label className="label">
+                      <span className="label-text">Select Image</span>
+                    </label>
+                    <input
+                      type="file"
+                      multiple
+                      name="image"
+                      className="file-input file-input-bordered w-full max-w-xs"
+                      onChange={handelChanges}
+                    />
+                  </div>
+                </>
+              )}
+
+              {step === 3 && (
+                <>
+                  <div className="form-control">
+                    <label className="label">
+                      <span className="label-text">Color</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="color"
+                      name="color"
+                      className="input input-bordered"
+                      onChange={handelChanges}
+                    />
+                  </div>
+                  <div className="form-control mt-4">
+                    <label className="label">
+                      <span className="label-text">Size</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="size"
+                      name="size"
+                      className="input input-bordered"
+                      onChange={handelChanges}
+                    />
+                  </div>
+                  <div className="form-control mt-4">
+                    <label className="label">
+                      <span className="label-text">Slug</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="slug"
+                      name="slug"
+                      className="input input-bordered"
+                      onChange={handelChanges}
+                    />
+                  </div>
+                  <div className="form-control mt-4">
+                    <label className="label">
+                      <span className="label-text">tags</span>
+                    </label>
+                    <input
+                      type="text"
+                      className="input input-bordered"
+                      name="tags"
+                      placeholder="Tags"
+                      onChange={handelChanges}
+                    />
+                  </div>
+                </>
+              )}
             </form>
-            <div className="modal-action">
-              <button className="btn" onClick={handleCancel}>
-                Cancel
-              </button>
-              <button className="btn btn-primary" onClick={handleOk}>
-                Add Product
-              </button>
-            </div>
+            {step === 1 && (
+              <div className="modal-action">
+                <button className="btn" onClick={handleCancel}>
+                  Cancel
+                </button>
+                <button className="btn btn-primary" onClick={handelNext}>
+                  Next
+                </button>
+              </div>
+            )}
+            {step === 2 && (
+              <div className="modal-action">
+                <button className="btn" onClick={handelBack}>
+                  Back
+                </button>
+                <button className="btn btn-primary" onClick={handelNext}>
+                  Next
+                </button>
+              </div>
+            )}
+            {step === 3 && (
+              <div className="modal-action">
+                <button className="btn" onClick={handelBack}>
+                  Back
+                </button>
+                <button className="btn btn-primary" onClick={handleOk}>
+                  Add Product
+                </button>
+              </div>
+            )}
           </div>
         </div>
       )}

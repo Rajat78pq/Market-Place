@@ -8,6 +8,8 @@ import RegisterRoute from "./routes/auth/register.route";
 import LoginRoute from "./routes/auth/login.route";
 import ShopRoute from "./routes/shop/shopDetails.route";
 import ShopLocationRoute from "./routes/shop/shopLocation.route";
+import NearestShopRoute from "./routes/home/nearestShop.route";
+import ShopProduct from "./routes/shop/shopProduct.route";
 
 dotenv.config();
 
@@ -57,3 +59,5 @@ app.use("/api", RegisterRoute);
 app.use("/api", LoginRoute);
 app.use("/api", authenticate, ShopRoute);
 app.use("/api", authenticate, ShopLocationRoute);
+app.use("/api", authenticate, ShopProduct);
+app.use("/", NearestShopRoute);
