@@ -1,3 +1,4 @@
+import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
 import "tailwindcss/tailwind.css";
 
@@ -24,10 +25,35 @@ const ProductPage = () => {
     setIsModalVisible(true);
   };
 
-  const handleOk = () => {
+  const handleOk = async () => {
     setIsModalVisible(false);
-    console.log(formData, description);
     setStep(1);
+
+    try {
+      const token = localStorage.getItem("token");
+      const result = await fetch(
+        `http://localhost:3000/api/shop/product/create`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ formData, description }),
+        }
+      );
+
+      if (!result.ok) {
+        const errorData = await result.json();
+        throw new Error(errorData.message || "Product creation failed");
+      }
+
+      const response = await result.json();
+      console.log(response);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleCancel = () => {
@@ -55,6 +81,16 @@ const ProductPage = () => {
       [name]: value,
     }));
   };
+
+  const productMutation = useMutation({
+    mutationFn: () => handleOk(),
+    onSuccess: () => {
+      console.log("Product created successfully");
+    },
+    onError: () => {
+      console.log("Product creation failed");
+    },
+  });
 
   return (
     <>
@@ -350,7 +386,10 @@ const ProductPage = () => {
                 <button className="btn" onClick={handelBack}>
                   Back
                 </button>
-                <button className="btn btn-primary" onClick={handleOk}>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => productMutation.mutate()}
+                >
                   Add Product
                 </button>
               </div>

@@ -3,6 +3,14 @@ import { motion } from "framer-motion";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+
+interface JWTPayload {
+  email: string;
+  role: string;
+  userId: string;
+}
+
 const ShopLocation = () => {
   // const [currentShop, setCurrentShop] = useState();
   const [latitude, setLatitude] = useState(0);
@@ -28,6 +36,8 @@ const ShopLocation = () => {
   };
 
   const handelSubmit = async () => {
+    const token = localStorage.getItem("token");
+    const user: JWTPayload = jwtDecode(token as string);
     const result = await fetch("http://localhost:3000/api/shop/location", {
       method: "POST",
       headers: {
@@ -38,6 +48,7 @@ const ShopLocation = () => {
         latitude,
         longitude,
         shop_id: shop_id,
+        user_id: user.userId,
       }),
     });
 
@@ -46,7 +57,10 @@ const ShopLocation = () => {
       throw new Error(errorData.message || "Registration failed");
     }
     const dataLog = await result.json();
-    console.log(dataLog);
+    if (dataLog.token) {
+      localStorage.setItem("token", dataLog.token);
+    }
+    console.log(dataLog.token);
     return dataLog;
   };
 

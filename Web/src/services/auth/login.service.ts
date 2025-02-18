@@ -19,9 +19,13 @@ export default class LoginService {
         if (!isPasswordValid) {
           throw new Error("Invalid email or password");
         } else {
-          const token = jwt.sign({ userId: user.id }, "secret", {
-            expiresIn: "7h",
-          });
+          const token = jwt.sign(
+            { userId: user.id, email: user.email, role: user.role },
+            "secret",
+            {
+              expiresIn: "7h",
+            }
+          );
           return { token };
         }
       }

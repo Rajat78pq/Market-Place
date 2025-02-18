@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomeLayout from "./layout/homeLayout";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import ShopDashboard from "./layout/shopDashboard";
+import ShopRoute from "./features/restrictedRoute/shopRoute";
 
 // const Home = lazy(() => import("./pages/home"));
 const HeroPage = lazy(() => import("./pages/heroPage"));
@@ -15,6 +16,7 @@ const ShopHomePage = lazy(() => import("./pages/shop/dashboard/homePage"));
 const UserProfile = lazy(() => import("./pages/user/userProfile"));
 const ShopProduct = lazy(() => import("./pages/shop/dashboard/productPage"));
 const ShopOrders = lazy(() => import("./pages/shop/dashboard/orderPage"));
+const UserOrder = lazy(() => import("./pages/user/userOrder"));
 
 const GoogleAuthLoginWrapper = () => {
   return (
@@ -91,18 +93,6 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/shop/dashboard",
-    element: (
-      <ShopDashboard>
-        <Suspense
-          fallback={<span className="loading loading-ring loading-lg"></span>}
-        >
-          <ShopHomePage />
-        </Suspense>
-      </ShopDashboard>
-    ),
-  },
-  {
     path: "/profile",
     element: (
       <Suspense
@@ -113,28 +103,62 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/shop/products",
+    path: "/user/orders",
     element: (
-      <ShopDashboard>
-        <Suspense
-          fallback={<span className="loading loading-ring loading-lg"></span>}
-        >
-          <ShopProduct />
-        </Suspense>
-      </ShopDashboard>
+      <Suspense
+        fallback={<span className="loading loading-ring loading-lg"></span>}
+      >
+        <UserOrder />
+      </Suspense>
     ),
   },
   {
-    path: "/shop/orders",
-    element: (
-      <ShopDashboard>
-        <Suspense
-          fallback={<span className="loading loading-ring loading-lg"></span>}
-        >
-          <ShopOrders />
-        </Suspense>
-      </ShopDashboard>
-    ),
+    path: "/shop",
+    element: <ShopRoute />,
+    children: [
+      {
+        path: "dashboard",
+        element: (
+          <ShopDashboard>
+            <Suspense
+              fallback={
+                <span className="loading loading-ring loading-lg"></span>
+              }
+            >
+              <ShopHomePage />
+            </Suspense>
+          </ShopDashboard>
+        ),
+      },
+      {
+        path: "products",
+        element: (
+          <ShopDashboard>
+            <Suspense
+              fallback={
+                <span className="loading loading-ring loading-lg"></span>
+              }
+            >
+              <ShopProduct />
+            </Suspense>
+          </ShopDashboard>
+        ),
+      },
+      {
+        path: "orders",
+        element: (
+          <ShopDashboard>
+            <Suspense
+              fallback={
+                <span className="loading loading-ring loading-lg"></span>
+              }
+            >
+              <ShopOrders />
+            </Suspense>
+          </ShopDashboard>
+        ),
+      },
+    ],
   },
 ]);
 

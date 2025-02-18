@@ -6,7 +6,8 @@ export default class ShopProductController {
   static async createProduct(req: Request, res: Response) {
     try {
       const product: IProduct = req.body;
-      const result = await ShopProductService.createProduct(product);
+      const shopId = req.params.shopId;
+      const result = await ShopProductService.createProduct(product, shopId);
       res.status(200).json(result);
     } catch (error) {
       return res

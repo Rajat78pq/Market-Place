@@ -7,6 +7,7 @@ import {
   FaMapMarkerAlt,
   FaBell,
 } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const UserProfile = () => {
   return (
@@ -23,9 +24,12 @@ const UserProfile = () => {
             <h3 className="text-xl font-semibold">User Name</h3>
             <p className="text-gray-600">user@example.com</p>
             <div className="flex flex-wrap justify-center mt-4">
-              <button className="btn bg-white border-gray-300 m-2">
+              <Link
+                to={"/user/orders"}
+                className="btn bg-white border-gray-300 m-2"
+              >
                 <FaBox className="mr-2" /> Orders
-              </button>
+              </Link>
               <button className="btn bg-white border-gray-300 m-2">
                 <FaHeart className="mr-2" /> Wishlist
               </button>
