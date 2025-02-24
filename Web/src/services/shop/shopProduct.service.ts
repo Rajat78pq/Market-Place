@@ -32,7 +32,6 @@ export default class ShopProductService {
           shopId: shopId,
         },
       });
-      console.log(response);
       return response;
     } catch (error) {
       throw error;

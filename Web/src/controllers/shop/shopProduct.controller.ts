@@ -20,10 +20,8 @@ export default class ShopProductController {
       if (!product || !product.productName) {
         return res.status(400).json({ error: "Invalid product data" });
       }
-      console.log(product);
       const shopId = await findShopId();
       const result = await ShopProductService.createProduct(product, shopId);
-      console.log(result);
       res.status(200).json({ success: true, result });
     } catch (error) {
       return res
@@ -33,24 +31,12 @@ export default class ShopProductController {
   }
 
   static async allProduct(req: CustomRequest, res: Response) {
-    console.log("logged");
-    // const getShopId = () => {
-    //   const authHeader: any = req.headers.authorization;
-    //   if (!authHeader) {
-    //     throw new Error("unAuthorized Error");
-    //   }
-    //   const token = authHeader.split(" ")[1];
-    //   const decode = jwt.decode(token) as any;
-    //   console.log(decode.shopId);
-    //   return decode.shopId;
-    // };
     try {
       if (!req.user || !req.user.shopId) {
         res.send(401).send({ message: "Unauthorized ShopId not available." });
       }
       const shopId = req.user.shopId;
       const result = await ShopProductService.allProduts(shopId);
-      console.log(result);
       res.status(200).json(result);
     } catch (error) {
       res.status(500).json({ success: false, error });

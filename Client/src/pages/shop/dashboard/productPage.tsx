@@ -42,7 +42,6 @@ const ProductPage = () => {
         throw new Error(`This is the Error: ${error}`);
       }
       const resData = await response.json();
-      console.log(resData);
       setProduct(resData);
     } catch (error) {
       console.log(error);
@@ -50,7 +49,6 @@ const ProductPage = () => {
   };
 
   useEffect(() => {
-    console.log("Sorry...");
     fetchProduct();
   }, []);
 

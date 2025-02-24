@@ -6,7 +6,6 @@ export default class RegisterController {
   static async register(req: any, res: any) {
     const data = req.body;
     const code = req.query.code;
-    console.log(code);
     if (code) {
       const googleRes = await oauth2client.getToken(code);
       oauth2client.setCredentials(googleRes.tokens);
@@ -14,7 +13,6 @@ export default class RegisterController {
         `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${googleRes.tokens.access_token}`
       );
       const { email, name, picture } = await userRes.data;
-      console.log(email, name, picture);
       const result = await RegisterService.postRegister(email);
       return res.status(200).send(result);
     } else {
