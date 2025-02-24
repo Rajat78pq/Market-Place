@@ -6,22 +6,34 @@ export default class ShopProductService {
     try {
       const Response = await prisma.product.create({
         data: {
-          product_name: product.formData.product_name,
+          product_name: product.productName,
           description: product.description,
-          category: product.formData.category,
-          brand: product.formData.brand,
-          price: product.formData.price,
-          discount_price: product.formData.discount_price,
-          stock: product.formData.stock,
-          image: product.formData.image,
-          color: product.formData.color,
-          size: product.formData.size,
-          slug: product.formData.slug,
-          tags: product.formData.tags,
+          category: product.category,
+          brand: product.brand,
+          price: product.price,
+          discount_price: product.discountPrice,
+          stock: product.stock,
+          color: product.color,
+          size: product.size,
+          slug: product.slug,
           shopId: shopId,
         },
       });
       return Response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async allProduts(shopId: string) {
+    try {
+      const response = await prisma.product.findMany({
+        where: {
+          shopId: shopId,
+        },
+      });
+      console.log(response);
+      return response;
     } catch (error) {
       throw error;
     }

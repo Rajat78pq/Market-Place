@@ -2,10 +2,34 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Category from "./category";
 import { ImSearch } from "react-icons/im";
+import { jwtDecode } from "jwt-decode";
+
+interface JWTPayload {
+  email: string;
+  role: string;
+  userId: string;
+  shopId: string;
+}
 
 const NavBar = () => {
   const [showSearch, setShowSearch] = useState(false);
-  useEffect(() => {});
+  const [seller, setSeller] = useState(false);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      console.warn("No token found in localStorage");
+      return;
+    }
+    try {
+      const user: JWTPayload = jwtDecode(token);
+      if (user.role === "seller") {
+        setSeller(true);
+      }
+    } catch (error) {
+      console.error("Invalid token:", error);
+    }
+  }, []);
 
   return (
     <>
@@ -143,12 +167,27 @@ const NavBar = () => {
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
               <li>
-                <Link to="/shop/create">
+                {seller ? (
+                  <Link to="/shop/login">
+                    <a className="justify-between">
+                      Go to shop
+                      <span className="badge">New</span>
+                    </a>
+                  </Link>
+                ) : (
+                  <Link to="/shop/create">
+                    <a className="justify-between">
+                      Create shop
+                      <span className="badge">New</span>
+                    </a>
+                  </Link>
+                )}
+                {/* <Link to="/shop/create">
                   <a className="justify-between">
                     Create shop
-                    {/* <span className="badge">New</span> */}
+                    <span className="badge">New</span>
                   </a>
-                </Link>
+                </Link> */}
               </li>
               <li>
                 <a>Settings</a>

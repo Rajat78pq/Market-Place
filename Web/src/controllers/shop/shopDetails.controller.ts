@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import ShopDetailsService from "../../services/shop/shopDetails.service";
 import { IShopDetails } from "../../models/IshopDetails";
+import IloginShop from "../../models/IloginShop";
 
 export default class ShopDetailsController {
   static async getShopDetails(req: Request, res: Response) {
@@ -26,6 +27,18 @@ export default class ShopDetailsController {
       return res
         .status(500)
         .json({ message: `Internal server error from backend: ${error}` });
+    }
+  }
+
+  static async loginShop(req: Request, res: Response) {
+    try {
+      const data: IloginShop = req.body;
+      const authHeader: any = req.headers.authorization;
+      const oldToken = authHeader.split(" ")[1];
+      const token = await ShopDetailsService.loginShop(data, oldToken);
+      return res.status(200).json({ success: true, token });
+    } catch (error) {
+      return res.status(500).send(error);
     }
   }
 }

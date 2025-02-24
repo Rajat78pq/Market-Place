@@ -17,6 +17,7 @@ model User {
   oauthId        String?          @unique
   deliveryPoints DeliveryPoint[]  @relation("UserDeliveryPoint")
   shops          Shop[]           @relation("UserShops")
+  shop_id        String?          @default("null")
 }
 
 model DeliveryPoint {
@@ -53,11 +54,9 @@ model Product {
   price     Decimal
   discount_price Decimal
   stock     Int
-  image     String[]
   color     String
   size      String
   slug      String
-  tags      String[]
   createdAt DateTime @default(now())
   shopId    String
   shop      Shop     @relation(fields: [shopId], references: [id])

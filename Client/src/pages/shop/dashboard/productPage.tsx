@@ -1,6 +1,14 @@
 import { useMutation } from "@tanstack/react-query";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "tailwindcss/tailwind.css";
+import { FaEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
+
+interface Products {
+  product_name: string;
+  price: number;
+  stock: number;
+}
 
 const ProductPage = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -8,6 +16,54 @@ const ProductPage = () => {
   const [step, setStep] = useState(1);
 
   const [description, setDescription] = useState("");
+  const [productName, setProductName] = useState("");
+  const [category, setCategory] = useState("");
+  const [brand, setBrand] = useState("");
+  const [price, setPrice] = useState(0);
+  const [discountPrice, setDiscountPrice] = useState(0);
+  const [stock, setStock] = useState(0);
+  const [color, setColor] = useState("");
+  const [size, setSize] = useState("");
+  const [slug, setSlug] = useState("");
+  const [product, setProduct] = useState<Products[]>([]);
+
+  // const queryClient = useQueryClient()
+
+  const fetchProduct = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/product", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(`This is the Error: ${error}`);
+      }
+      const resData = await response.json();
+      console.log(resData);
+      setProduct(resData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    console.log("Sorry...");
+    fetchProduct();
+  }, []);
+
+  const productMutation = useMutation({
+    mutationFn: () => handleOk(),
+    onSuccess: () => {
+      console.log("Product created successfully");
+      fetchProduct();
+    },
+    onError: () => {
+      console.log("Product creation failed");
+    },
+  });
 
   const changeDes = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDescription(e.target.value);
@@ -25,10 +81,13 @@ const ProductPage = () => {
     setIsModalVisible(true);
   };
 
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
   const handleOk = async () => {
     setIsModalVisible(false);
     setStep(1);
-
     try {
       const token = localStorage.getItem("token");
       const result = await fetch(
@@ -39,7 +98,18 @@ const ProductPage = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ formData, description }),
+          body: JSON.stringify({
+            productName,
+            description,
+            category,
+            brand,
+            price,
+            discountPrice,
+            stock,
+            color,
+            size,
+            slug,
+          }),
         }
       );
 
@@ -55,42 +125,6 @@ const ProductPage = () => {
       console.log(error);
     }
   };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
-
-  const [formData, setFormData] = useState({
-    product_name: "",
-    category: "",
-    brand: "",
-    price: 0,
-    discount_price: 0,
-    stock: 0,
-    image: {},
-    color: "",
-    size: "",
-    slug: "",
-    tags: [],
-  });
-
-  const handelChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const productMutation = useMutation({
-    mutationFn: () => handleOk(),
-    onSuccess: () => {
-      console.log("Product created successfully");
-    },
-    onError: () => {
-      console.log("Product creation failed");
-    },
-  });
 
   return (
     <>
@@ -168,28 +202,34 @@ const ProductPage = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td className="px-4 py-2 border border-gray-300">
-                    <img
-                      src="https://via.placeholder.com/50"
-                      alt="Product"
-                      className="w-10 h-10"
-                    />
-                  </td>
-                  <td className="px-4 py-2 border border-gray-300">
-                    Product 1
-                  </td>
-                  <td className="px-4 py-2 border border-gray-300">$50</td>
-                  <td className="px-4 py-2 border border-gray-300">100</td>
-                  <td className="px-4 py-2 border border-gray-300">
-                    <button className="p-1 bg-green-500 text-white rounded">
-                      Edit
-                    </button>
-                    <button className="ml-2 p-1 bg-red-500 text-white rounded">
-                      Delete
-                    </button>
-                  </td>
-                </tr>
+                {product.map((product: Products) => (
+                  <tr>
+                    <td className="px-4 py-2 border border-gray-300">
+                      <img
+                        src="https://via.placeholder.com/50"
+                        alt="Product"
+                        className="w-10 h-10"
+                      />
+                    </td>
+                    <td className="px-4 py-2 border border-gray-300">
+                      {product.product_name}
+                    </td>
+                    <td className="px-4 py-2 border border-gray-300">
+                      {product.price}
+                    </td>
+                    <td className="px-4 py-2 border border-gray-300">
+                      {product.stock}
+                    </td>
+                    <td className="px-4 py-2 border border-gray-300 flex flex-col md:flex-row">
+                      <button className="p-3  text-white rounded">
+                        <FaEdit color="black" />
+                      </button>
+                      <button className="ml-2 p-3 text-white rounded">
+                        <MdDelete color="red" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
@@ -214,7 +254,7 @@ const ProductPage = () => {
                       placeholder="Product Name"
                       name="product_name"
                       className="input input-bordered"
-                      onChange={handelChanges}
+                      onChange={(e) => setProductName(e.target.value)}
                     />
                   </div>
                   <div className="form-control mt-4">
@@ -237,7 +277,7 @@ const ProductPage = () => {
                       placeholder="Category"
                       name="category"
                       className="input input-bordered"
-                      onChange={handelChanges}
+                      onChange={(e) => setCategory(e.target.value)}
                     />
                   </div>
                   <div className="form-control mt-4">
@@ -249,7 +289,7 @@ const ProductPage = () => {
                       placeholder="Brand"
                       name="brand"
                       className="input input-bordered"
-                      onChange={handelChanges}
+                      onChange={(e) => setBrand(e.target.value)}
                     />
                   </div>
                 </>
@@ -266,7 +306,7 @@ const ProductPage = () => {
                       placeholder="Price"
                       name="price"
                       className="input input-bordered"
-                      onChange={handelChanges}
+                      onChange={(e) => setPrice(parseInt(e.target.value))}
                     />
                   </div>
                   <div className="form-control mt-4">
@@ -278,7 +318,9 @@ const ProductPage = () => {
                       placeholder="Discount"
                       name="discount_price"
                       className="input input-bordered"
-                      onChange={handelChanges}
+                      onChange={(e) =>
+                        setDiscountPrice(parseInt(e.target.value))
+                      }
                     />
                   </div>
                   <div className="form-control mt-4">
@@ -290,19 +332,7 @@ const ProductPage = () => {
                       placeholder="Stock"
                       name="stock"
                       className="input input-bordered"
-                      onChange={handelChanges}
-                    />
-                  </div>
-                  <div className="form-control mt-4">
-                    <label className="label">
-                      <span className="label-text">Select Image</span>
-                    </label>
-                    <input
-                      type="file"
-                      multiple
-                      name="image"
-                      className="file-input file-input-bordered w-full max-w-xs"
-                      onChange={handelChanges}
+                      onChange={(e) => setStock(parseInt(e.target.value))}
                     />
                   </div>
                 </>
@@ -319,7 +349,7 @@ const ProductPage = () => {
                       placeholder="color"
                       name="color"
                       className="input input-bordered"
-                      onChange={handelChanges}
+                      onChange={(e) => setColor(e.target.value)}
                     />
                   </div>
                   <div className="form-control mt-4">
@@ -331,7 +361,7 @@ const ProductPage = () => {
                       placeholder="size"
                       name="size"
                       className="input input-bordered"
-                      onChange={handelChanges}
+                      onChange={(e) => setSize(e.target.value)}
                     />
                   </div>
                   <div className="form-control mt-4">
@@ -343,19 +373,7 @@ const ProductPage = () => {
                       placeholder="slug"
                       name="slug"
                       className="input input-bordered"
-                      onChange={handelChanges}
-                    />
-                  </div>
-                  <div className="form-control mt-4">
-                    <label className="label">
-                      <span className="label-text">tags</span>
-                    </label>
-                    <input
-                      type="text"
-                      className="input input-bordered"
-                      name="tags"
-                      placeholder="Tags"
-                      onChange={handelChanges}
+                      onChange={(e) => setSlug(e.target.value)}
                     />
                   </div>
                 </>

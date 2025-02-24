@@ -34,7 +34,8 @@ export default class ShopLocationService {
           email: updateUser?.email,
           role: updateUser?.role,
         },
-        "secret"
+        "secret",
+        { expiresIn: "1d" }
       );
 
       return { token: NewToken };

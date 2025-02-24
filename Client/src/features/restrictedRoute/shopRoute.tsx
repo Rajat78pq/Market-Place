@@ -5,6 +5,7 @@ interface JWTPayload {
   email: string;
   role: string;
   userId: string;
+  shopId: string;
 }
 
 const ShopRoute = () => {
@@ -14,7 +15,7 @@ const ShopRoute = () => {
   }
   const user: JWTPayload = jwtDecode(token);
   console.log(user);
-  return user.role === "seller" ? <Outlet /> : <Navigate to="/login" />;
+  return user.role === "seller" ? <Outlet /> : <Navigate to="/shop/create" />;
 };
 
 export default ShopRoute;

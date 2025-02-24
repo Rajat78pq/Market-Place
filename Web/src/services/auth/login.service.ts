@@ -20,15 +20,32 @@ export default class LoginService {
           throw new Error("Invalid email or password");
         } else {
           const token = jwt.sign(
-            { userId: user.id, email: user.email, role: user.role },
+            {
+              userId: user.id,
+              email: user.email,
+              role: user.role,
+              shopId: user.shop_id,
+            },
             "secret",
             {
-              expiresIn: "7h",
+              expiresIn: "1d",
             }
           );
           return { token };
         }
       }
     }
+  }
+
+  static async updateUser(data: any) {
+    const user = await prisma.user.update({
+      where: {
+        id: data.user_id,
+      },
+      data: {
+        shop_id: data.shop_id,
+      },
+    });
+    console.log(user);
   }
 }

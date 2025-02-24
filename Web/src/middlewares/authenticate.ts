@@ -15,6 +15,7 @@ function authenticate(req: CustomRequest, res: Response, next: NextFunction) {
         res.status(401).send({ message: "Some error Unauthorized" });
       } else {
         req.user = decoded;
+        // console.log(decoded);
         next();
       }
     });

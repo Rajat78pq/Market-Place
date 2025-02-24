@@ -1,4 +1,4 @@
-import location from "../../assets/imgs/location.png";
+import location from "../../../assets/imgs/location.png";
 import { motion } from "framer-motion";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useEffect, useState, useRef } from "react";

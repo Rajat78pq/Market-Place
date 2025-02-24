@@ -4,7 +4,7 @@ import { IoIosPeople } from "react-icons/io";
 import { FaMapLocationDot } from "react-icons/fa6";
 import { FaCrown } from "react-icons/fa";
 import { MdCategory } from "react-icons/md";
-import shopDetails from "../../assets/imgs/ shopdetails.png";
+import shopDetails from "../../../assets/imgs/ shopdetails.png";
 import { useNavigate } from "react-router-dom";
 const ShopDetailsForm = () => {
   const [name, setName] = useState("");

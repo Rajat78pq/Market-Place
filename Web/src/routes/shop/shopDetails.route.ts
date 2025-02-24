@@ -10,4 +10,8 @@ router.get("/shop/:id", (req, res) => {
   ShopDetailsController.getShopDetails(req, res);
 });
 
+router.post("/shop/login", (req, res) => {
+  ShopDetailsController.loginShop(req, res);
+});
+
 export default router;

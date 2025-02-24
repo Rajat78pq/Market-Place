@@ -1,16 +1,12 @@
 export interface IProduct {
-  formData: {
-    product_name: string;
-    category: string;
-    brand: string;
-    price: number;
-    discount_price: number;
-    stock: number;
-    image: [""];
-    color: string;
-    size: string;
-    slug: string;
-    tags: [""];
-  };
+  productName: string;
   description: string;
+  category: string;
+  brand: string;
+  price: number;
+  discountPrice: number;
+  stock: number;
+  color: string;
+  size: string;
+  slug: string;
 }

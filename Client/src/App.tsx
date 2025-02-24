@@ -10,13 +10,14 @@ import ShopRoute from "./features/restrictedRoute/shopRoute";
 const HeroPage = lazy(() => import("./pages/heroPage"));
 const UserLogin = lazy(() => import("./pages/auth/userLogin"));
 const UserRegister = lazy(() => import("./pages/auth/userRegister"));
-const ShopDetailsForm = lazy(() => import("./pages/shop/shopDetailsForm"));
-const ShopLocation = lazy(() => import("./pages/shop/shopLocation"));
+const ShopDetailsForm = lazy(() => import("./pages/shop/auth/shopDetailsForm"));
+const ShopLocation = lazy(() => import("./pages/shop/auth/shopLocation"));
 const ShopHomePage = lazy(() => import("./pages/shop/dashboard/homePage"));
 const UserProfile = lazy(() => import("./pages/user/userProfile"));
 const ShopProduct = lazy(() => import("./pages/shop/dashboard/productPage"));
 const ShopOrders = lazy(() => import("./pages/shop/dashboard/orderPage"));
 const UserOrder = lazy(() => import("./pages/user/userOrder"));
+const ShopLogin = lazy(() => import("./pages/shop/auth/shopLogin"));
 
 const GoogleAuthLoginWrapper = () => {
   return (
@@ -116,6 +117,16 @@ const router = createBrowserRouter([
     path: "/shop",
     element: <ShopRoute />,
     children: [
+      {
+        path: "login",
+        element: (
+          <Suspense
+            fallback={<span className="loading loading-ring loading-lg"></span>}
+          >
+            <ShopLogin />
+          </Suspense>
+        ),
+      },
       {
         path: "dashboard",
         element: (
